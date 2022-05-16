@@ -1,0 +1,199 @@
+class Tetrimino{
+    field int type;         // 0 = ■型, 1 = I型, 2 = L型, 3 = 逆L型, 4 = T型, 5 = Z型, 6 = 逆Z型
+    field int maxRow;
+    field int maxColumn;
+    field Array rowPositions;
+    field Array columnPositions;
+
+    constructor Tetrimino new(Table table, int rand){
+        var int row;
+        var int column;
+        let maxRow = table.getRow();
+        let maxColumn = table.getColumn();
+        let row = 2;
+        let column = maxColumn/2;
+        let type = rand;       //ここは手動で決めている. ランダムにしたい.
+        let rowPositions = Array.new(4);
+        let columnPositions = Array.new(4);
+
+        // positionsの設定を行う.
+        let rowPositions[0] = row;
+        let columnPositions[0] =column;
+        if(type = 0){
+            let rowPositions[1] = row;   let columnPositions[1] = column+1;
+            let rowPositions[2] = row-1; let columnPositions[2] = column;
+            let rowPositions[3] = row-1; let columnPositions[3] = column+1;
+        }
+        if(type = 1){
+            let rowPositions[1] = row;   let columnPositions[1] = column-1;
+            let rowPositions[2] = row;   let columnPositions[2] = column+1;
+            let rowPositions[3] = row;   let columnPositions[3] = column+2;
+        }
+        if(type = 2){
+            let rowPositions[1] = row;   let columnPositions[1] = column-1;
+            let rowPositions[2] = row;   let columnPositions[2] = column+1;
+            let rowPositions[3] = row-1; let columnPositions[3] = column+1;
+        }
+        if(type = 3){
+            let rowPositions[1] = row;   let columnPositions[1] = column-1;
+            let rowPositions[2] = row;   let columnPositions[2] = column+1;
+            let rowPositions[3] = row-1; let columnPositions[3] = column-1;
+        }
+        if(type = 4){
+            let rowPositions[1] = row;   let columnPositions[1] = column-1;
+            let rowPositions[2] = row;   let columnPositions[2] = column+1;
+            let rowPositions[3] = row-1; let columnPositions[3] = column;
+        }
+        if(type = 5){
+            let rowPositions[1] = row;   let columnPositions[1] = column+1;
+            let rowPositions[2] = row-1; let columnPositions[2] = column;
+            let rowPositions[3] = row-1; let columnPositions[3] = column-1;
+        }
+        if(type = 6){
+            let rowPositions[1] = row;   let columnPositions[1] = column-1;
+            let rowPositions[2] = row-1; let columnPositions[2] = column;
+            let rowPositions[3] = row-1; let columnPositions[3] = column+1;
+        }
+        return this;
+    }
+
+    method bool checkCanRotate(Table table){
+        var int i;
+        var int tempRow, tempColumn;
+        while(i<4){
+            let tempRow =  rowPositions[0] - (columnPositions[i] - columnPositions[0]);
+            let tempColumn = columnPositions[0] + (rowPositions[i] - rowPositions[0]);
+            if(tempRow<1){
+                return false;
+            }
+            if(tempRow>table.getRow()){
+                return false;
+            }
+            if(tempColumn<1){
+                return false;
+            }
+            if(tempColumn>table.getColumn()){
+                return false;
+            }
+            if(table.getTable(tempRow, tempColumn) = true){
+                return false;
+            }
+            let i = i+1;
+        }
+        return true;
+    }
+
+    method void rotate(){
+        var int i;
+        var int tempRow, tempColumn;
+        let i = 1;
+        while(i<4){
+            let tempRow = (rowPositions[i] - rowPositions[0]);
+            let tempColumn = (columnPositions[i] - columnPositions[0]);
+            let rowPositions[i] = (rowPositions[0] - tempColumn);
+            let columnPositions[i] = (columnPositions[0] + tempRow);
+            let i = i+1;
+        }
+        return;
+    }
+
+    method void moveLeft(){
+        var int i;
+        let i = 0;
+        while(i<4){
+            let columnPositions[i] = columnPositions[i] - 1;
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void moveRight(){
+        var int i;
+        let i = 0;
+        while(i<4){
+            let columnPositions[i] = columnPositions[i] + 1;
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void downTetrimino(){
+        var int i;
+        let i = 0;
+        while(i<4){
+            let rowPositions[i] = rowPositions[i] +1;
+            let i = i + 1;
+        }
+        return;
+    }
+
+
+    method boolean checkLanding(Table table){
+        var int i;
+        let i = 0;
+
+        while(i<4){
+            if(rowPositions[i] = maxRow){
+                return true;
+            }
+            if(table.getTable(rowPositions[i]+1, columnPositions[i])=true){
+                return true;
+            }
+            let i = i+1;
+        }
+        return false;
+    }
+
+    method boolean checkStickingLeft(Table table){
+        var int i;
+        let i = 0;
+
+        while(i<4){
+            if(columnPositions[i] = 1){
+                return true;
+            }
+            if(table.getTable(rowPositions[i], columnPositions[i]-1)=true){
+                return true;
+            }
+            let i = i+1;
+        }
+        return false;
+    }
+
+    method boolean checkStickingRight(Table table){
+        var int i;
+        let i = 0;
+
+        while(i<4){
+            if(columnPositions[i] = maxColumn){
+                return true;
+            }
+            if(table.getTable(rowPositions[i], columnPositions[i]+1)=true){
+                return true;
+            }
+            let i = i+1;
+        }
+        return false;
+    }
+
+    method void copyTable(Table table){
+        var int i;
+        let i = 0;
+        while(i<4){
+            do table.putTable(rowPositions[i], columnPositions[i], true);
+            let i = i+1;
+        }
+        return;
+    }
+    method int getType(){
+        return type;
+    }
+
+    method int getRowPosition(int i){
+        return rowPositions[i];
+    }
+
+    method int getColumnPosition(int i){
+        return columnPositions[i];
+    }
+}

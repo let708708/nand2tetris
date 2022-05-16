@@ -1,0 +1,71 @@
+/************************************************
+    行列を作成するクラス.
+    テーブルに入ってる数を出し入れできる.
+*************************************************/
+
+class Table{
+    field int column;
+    field int row;
+    field Array table;
+
+    constructor Table new(int putRow, int putColumn){
+        let column = putColumn;
+        let row = putRow;
+        let table = Array.new(column*row);
+
+        return this;
+    }
+
+    method void downTable(int num){
+        var int i,j;
+
+        let i = num - 1;
+        while(i > 0)
+        {
+            let j = 1;
+            while(j<(column+1))
+            {
+                let table[i + ((j-1)*row)] = table[(i - 1) + ((j-1)*row)];
+                let j = j + 1;
+            }
+            let i = i - 1;
+        }
+
+        let j = 1;
+        while(j < (column+1)){
+            let table[(1 - 1) + ((j-1)*row)] = false;
+            let j = j+1;
+        }
+
+        return;
+    }
+
+    method boolean fillLine(int i){
+        var int j;
+        let j = 1;
+        while(j<(getColumn()+1)){
+            if(getTable(i,j) = false){
+                return false;
+            }
+            let j = j+1;
+        }
+        return true;
+    }
+
+    method boolean getTable(int putRow, int putColumn){
+        return table[(putRow - 1) + ((putColumn - 1)*row)];
+    }
+
+    method void putTable(int putRow, int putColumn, boolean bool){
+        let table[(putRow - 1) + ((putColumn - 1)*row)] = bool;
+        return;
+    }
+
+    method int getRow(){
+        return row;
+    }
+
+    method int getColumn(){
+        return column;
+    }
+}

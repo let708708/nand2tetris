@@ -1,0 +1,19 @@
+class Random{
+    field int M;
+    field int A;
+    field int X;
+    field int B;
+
+    constructor Random new(int m, int a,int b, int x){
+        let M = m;
+        let A = a;
+        let B = b;
+        let x = x;
+        return this;
+    }
+
+    method int getRandom(){
+        let X = ((A*X)+B) - ((((A*X)+B)/M)*M);
+        return (X - ((X/7)*7));
+    }
+}

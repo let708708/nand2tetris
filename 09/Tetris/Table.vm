@@ -1,0 +1,193 @@
+function Table.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+push argument 1
+pop this 0
+push argument 0
+pop this 1
+push this 0
+push this 1
+call Math.multiply 2
+call Array.new 1
+pop this 2
+push pointer 0
+return
+function Table.downTable 2
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+sub
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 0
+gt
+not
+if-goto WHILE_END0
+push constant 1
+pop local 1
+label WHILE_EXP1
+push local 1
+push this 0
+push constant 1
+add
+lt
+not
+if-goto WHILE_END1
+push local 0
+push local 1
+push constant 1
+sub
+push this 1
+call Math.multiply 2
+add
+push this 2
+add
+push local 0
+push constant 1
+sub
+push local 1
+push constant 1
+sub
+push this 1
+call Math.multiply 2
+add
+push this 2
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push local 0
+push constant 1
+sub
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 1
+pop local 1
+label WHILE_EXP2
+push local 1
+push this 0
+push constant 1
+add
+lt
+not
+if-goto WHILE_END2
+push constant 1
+push constant 1
+sub
+push local 1
+push constant 1
+sub
+push this 1
+call Math.multiply 2
+add
+push this 2
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push constant 0
+return
+function Table.fillLine 1
+push argument 0
+pop pointer 0
+push constant 1
+pop local 0
+label WHILE_EXP0
+push local 0
+push pointer 0
+call Table.getColumn 1
+push constant 1
+add
+lt
+not
+if-goto WHILE_END0
+push pointer 0
+push argument 1
+push local 0
+call Table.getTable 3
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+not
+return
+function Table.getTable 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+sub
+push argument 2
+push constant 1
+sub
+push this 1
+call Math.multiply 2
+add
+push this 2
+add
+pop pointer 1
+push that 0
+return
+function Table.putTable 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+sub
+push argument 2
+push constant 1
+sub
+push this 1
+call Math.multiply 2
+add
+push this 2
+add
+push argument 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Table.getRow 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Table.getColumn 0
+push argument 0
+pop pointer 0
+push this 0
+return

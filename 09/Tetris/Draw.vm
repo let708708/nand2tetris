@@ -1,0 +1,535 @@
+function Draw.drawInit 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 1
+push argument 0
+call Table.getRow 1
+add
+lt
+not
+if-goto WHILE_END0
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 10
+push local 0
+call Math.multiply 2
+add
+call Draw.drawBlackCube 2
+pop temp 0
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push argument 0
+call Table.getColumn 1
+push constant 1
+add
+push constant 10
+call Math.multiply 2
+add
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 10
+push local 0
+call Math.multiply 2
+add
+call Draw.drawBlackCube 2
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 1
+pop local 0
+label WHILE_EXP1
+push local 0
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+lt
+not
+if-goto WHILE_END1
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push local 0
+push constant 10
+call Math.multiply 2
+add
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 10
+push argument 0
+call Table.getRow 1
+call Math.multiply 2
+add
+call Draw.drawBlackCube 2
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push argument 0
+call Draw.drawBorderLine 1
+pop temp 0
+push constant 0
+return
+function Draw.drawTable 2
+push constant 1
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 1
+push argument 0
+call Table.getRow 1
+add
+lt
+not
+if-goto WHILE_END0
+push constant 1
+pop local 1
+label WHILE_EXP1
+push local 1
+push constant 1
+push argument 0
+call Table.getColumn 1
+add
+lt
+not
+if-goto WHILE_END1
+push argument 0
+push local 0
+push local 1
+call Table.getTable 3
+push constant 0
+not
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+push local 0
+push local 1
+call Draw.drawSelectedPosition 3
+pop temp 0
+label IF_FALSE0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Draw.drawTetrimino 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push argument 0
+push argument 1
+push local 0
+call Tetrimino.getRowPosition 2
+push argument 1
+push local 0
+call Tetrimino.getColumnPosition 2
+call Draw.drawSelectedPosition 3
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Draw.deleteTetrimino 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push argument 0
+push argument 1
+push local 0
+call Tetrimino.getRowPosition 2
+push argument 1
+push local 0
+call Tetrimino.getColumnPosition 2
+call Draw.deleteSelectedPosition 3
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Draw.drawSelectedPosition 0
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push argument 2
+push constant 10
+call Math.multiply 2
+add
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push argument 1
+push constant 1
+sub
+push constant 10
+call Math.multiply 2
+add
+call Draw.drawWhiteCube 2
+pop temp 0
+push constant 0
+return
+function Draw.deleteSelectedPosition 0
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push argument 2
+push constant 10
+call Math.multiply 2
+add
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push argument 1
+push constant 1
+sub
+push constant 10
+call Math.multiply 2
+add
+call Draw.drawDelete 2
+pop temp 0
+push argument 0
+call Draw.drawBorderLine 1
+pop temp 0
+push constant 0
+return
+function Draw.deleteAll 2
+push constant 1
+pop local 0
+label WHILE_EXP0
+push local 0
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+lt
+not
+if-goto WHILE_END0
+push constant 1
+pop local 1
+label WHILE_EXP1
+push local 1
+push argument 0
+call Table.getColumn 1
+push constant 1
+add
+lt
+not
+if-goto WHILE_END1
+push argument 0
+push local 0
+push local 1
+call Draw.deleteSelectedPosition 3
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Draw.drawBorderLine 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 10
+add
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 19
+add
+push constant 512
+push constant 10
+push argument 0
+call Table.getColumn 1
+push constant 2
+add
+call Math.multiply 2
+add
+push constant 2
+call Math.divide 2
+push constant 10
+sub
+push constant 256
+push constant 10
+push argument 0
+call Table.getRow 1
+push constant 1
+add
+call Math.multiply 2
+sub
+push constant 2
+call Math.divide 2
+push constant 19
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Draw.drawBlackCube 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 9
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 1
+add
+push argument 1
+push argument 0
+push constant 8
+add
+push argument 1
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 1
+add
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 8
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Draw.drawWhiteCube 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 9
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 1
+add
+push argument 1
+push argument 0
+push constant 8
+add
+push argument 1
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 9
+add
+push argument 0
+push constant 8
+add
+push argument 1
+push constant 9
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 1
+push constant 1
+add
+push argument 0
+push argument 1
+push constant 8
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 1
+add
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 8
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Draw.drawDelete 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 9
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return

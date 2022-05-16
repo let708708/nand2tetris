@@ -1,0 +1,130 @@
+/***********************************
+    画面サイズは縦256, 横512.
+    縦方向はyで表し, 横方向はxで表すことにする.
+***********************************/
+
+class Draw{
+
+    // フレームを作成する
+    function void drawInit(Table table){
+        var int i;
+        let i = 0;
+        while (i < (1+ table.getRow())){
+            do Draw.drawBlackCube((512 - (10*(table.getColumn()+2)))/2,((256-(10*(table.getRow()+1)))/2)+(10*i));
+            do Draw.drawBlackCube((512 - (10*(table.getColumn()+2)))/2+((table.getColumn()+1)*10),((256-(10*(table.getRow()+1)))/2)+(10*i));
+            let i = i+1;
+        }
+        let i = 1;
+        while (i<(table.getColumn()+2)){
+            do Draw.drawBlackCube(((512 - (10*(table.getColumn()+2)))/2)+(i*10),((256-(10*(table.getRow()+1)))/2)+(10*table.getRow()));
+            let i = i+1;
+        }
+            do Draw.drawBorderLine(table);
+        return;
+    }
+    
+    // テーブルの場所にwhiteCubeを表示する
+    function void drawTable(Table table){
+        var int i,j;
+
+        let i = 1;
+        while(i < (1+table.getRow()))
+        {
+            let j = 1;
+            while(j < (1+table.getColumn()))
+            {
+                if(table.getTable(i,j)=true)
+                {
+                    do Draw.drawSelectedPosition(table, i, j);
+                }
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+    function void drawTetrimino(Table table, Tetrimino tetrimino){
+
+        var int i;
+        let i = 0;
+
+        while (i<4){
+            do Draw.drawSelectedPosition(table, tetrimino.getRowPosition(i), tetrimino.getColumnPosition(i));
+            let i = i+1;
+        }
+        return;
+    }
+
+    function void deleteTetrimino(Table table, Tetrimino tetrimino){
+        var int i;
+        let i = 0;
+
+        while (i<4){
+            do Draw.deleteSelectedPosition(table, tetrimino.getRowPosition(i), tetrimino.getColumnPosition(i));
+            let i = i+1;
+        }
+        return;        
+    }
+
+    function void drawSelectedPosition(Table table, int i, int j){
+        do Draw.drawWhiteCube(((512 - (10*(table.getColumn()+2)))/2)+(j*10), ((256-(10*(table.getRow()+1)))/2)+((i-1)*10));
+        return;
+    }
+
+    function void deleteSelectedPosition(Table table, int i, int j){
+        do Draw.drawDelete(((512 - (10*(table.getColumn()+2)))/2)+(j*10), ((256-(10*(table.getRow()+1)))/2)+((i-1)*10));
+        do Draw.drawBorderLine(table);
+        return;
+    }
+
+    function void deleteAll(Table table){
+        var int i,j;
+        let i =1;
+        while(i<(table.getRow()+1)){
+            let j = 1;
+            while(j<(table.getColumn()+1)){
+                do Draw.deleteSelectedPosition(table, i, j);
+                let j = j+1;
+            }
+            let i = i+1;
+        }
+        return;
+    }
+
+    // 境界線を引く
+    function void drawBorderLine(Table table){
+        do Screen.setColor(true);
+        do Screen.drawLine(((512-(10*(table.getColumn() + 2)))/2) + 10,((256-(10*(table.getRow()+1)))/2)+19,((512+(10*(table.getColumn() + 2)))/2) - 10,((256-(10*(table.getRow()+1)))/2)+19);
+        return;        
+    }
+
+    // 10*10のblackCubeを表示する
+    function void drawBlackCube(int x, int y){
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x,y,x+9,y+9);
+        do Screen.setColor(false);
+        do Screen.drawLine(x+1,y,x+8,y);
+        do Screen.drawLine(x+9,y+1,x+9,y+8);
+        return;
+    }
+
+    // 10*10のwhiteCubeを表示する
+    function void drawWhiteCube(int x, int y){
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x+9, y+9);
+        do Screen.setColor(true);
+        do Screen.drawLine(x+1,   y, x+8,   y);
+        do Screen.drawLine(x+1, y+9, x+8, y+9);
+        do Screen.drawLine(  x, y+1,   x, y+8);
+        do Screen.drawLine(x+9, y+1, x+9, y+8);
+        return;
+    }
+
+    // 10*10のCubeを消す
+    function void drawDelete(int x, int y){
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x+9, y+9);
+        return;
+    }
+}

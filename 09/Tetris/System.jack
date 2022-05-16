@@ -1,0 +1,116 @@
+class System{
+    function void main(){
+        var Table table;
+        var int downTime;
+        var int countTime;
+        var boolean finish;
+        var Tetrimino tetrimino;
+        var Random rand;
+
+        let table = Table.new(22,10);
+        do Draw.drawInit(table);
+        let downTime = 5;
+        let rand = Random.new(24,13,5,5);
+        
+        while(true){                    //ゲーム内部
+            let tetrimino = Tetrimino.new(table, rand.getRandom());
+
+
+            let finish = false;
+            while(~finish){
+                do Draw.drawTetrimino(table, tetrimino);
+
+                let countTime = 0;
+                while(countTime < downTime){
+                    do System.move(table, tetrimino);
+                    do System.rotate(table, tetrimino);
+                    if(Keyboard.keyPressed() = 133){
+                        let countTime = downTime;
+                    }
+
+                    do Sys.wait(100);
+                    let countTime = countTime + 1;
+                }
+
+                if (tetrimino.checkLanding(table) = true){
+                    let finish = true;
+                }
+                else{
+                    do Draw.deleteTetrimino(table, tetrimino);
+                    do tetrimino.downTetrimino();
+                    do Draw.drawTetrimino(table, tetrimino);
+                }
+            }
+            do tetrimino.copyTable(table);
+            do System.deleteFilledLine(table);
+        
+            if(System.lose(table) = true){
+                do Output.printString("Game End.");
+                while(true){ }
+            }
+        }
+        return;
+
+    }
+
+    function void rotate(Table table, Tetrimino tetrimino){
+        if(Keyboard.keyPressed() = 131){
+            if(tetrimino.checkCanRotate(table) = true){
+                do Draw.deleteTetrimino(table, tetrimino);
+                do tetrimino.rotate();
+                do Draw.drawTetrimino(table, tetrimino);
+            }
+        }
+        return;
+    }
+
+    function void move(Table table, Tetrimino tetrimino){
+        if(Keyboard.keyPressed() = 130){
+            if(tetrimino.checkStickingLeft(table) = false){
+                do Draw.deleteTetrimino(table, tetrimino);
+                do tetrimino.moveLeft();
+                do Draw.drawTetrimino(table, tetrimino);
+            }
+        }
+
+        if(Keyboard.keyPressed() = 132){
+            if(tetrimino.checkStickingRight(table) = false){
+                do Draw.deleteTetrimino(table, tetrimino);
+                do tetrimino.moveRight();
+                do Draw.drawTetrimino(table, tetrimino);
+          }   
+        }
+        return;
+    }
+
+    function void deleteFilledLine(Table table){
+        var int i;
+        let i = 1;
+        while(i< (table.getRow()+1)){
+            if(table.fillLine(i)=true){
+                do table.downTable(i);
+            }
+            let i = i+1;
+        }
+
+        do Draw.deleteAll(table);
+        do Draw.drawTable(table);
+        return;
+    }
+
+    function boolean lose(Table table){
+        var int i,j;
+        let i = 1;
+        while(i<3){
+            let j = 1;
+            while(j<(table.getColumn()+1)){
+                if(table.getTable(i,j)=true){
+                    return true;
+                }
+                let j = j+1;
+            }
+            let i =i+1;
+        }
+        return false;
+    }
+}

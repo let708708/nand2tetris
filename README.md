@@ -1,2 +1,3 @@
-# nand2tetris
-C scripts which impliments nand2tetris,
+# コンピュータシステムの理論と実装
+
+Cでコンピュータシステムの理論と実装の内容(特にコンパイラ部分)を実装しています.
